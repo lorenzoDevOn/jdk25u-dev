@@ -1184,8 +1184,6 @@ class Http2Connection implements Closeable {
             case PingFrame.TYPE         -> handlePing((PingFrame) frame);
             case GoAwayFrame.TYPE       -> handleGoAway((GoAwayFrame) frame);
             case WindowUpdateFrame.TYPE -> handleWindowUpdate((WindowUpdateFrame) frame);
-            case AltSvcFrame.TYPE -> processAltSvcFrame(0, (AltSvcFrame) frame,
-                    connection, connection.client());
 
             default -> protocolError(ErrorFrame.PROTOCOL_ERROR, "unknown frame: " + frame);
         }
