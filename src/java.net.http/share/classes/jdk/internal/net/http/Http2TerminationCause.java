@@ -173,7 +173,13 @@ public abstract sealed class Http2TerminationCause {
         } else if (original instanceof IOException ioe) {
             return ioe;
         } else {
-            return Utils.toIOException(original);
+            Throwable c = Utils.getCompletionCause(original);
+            if (c instanceof IOException io) {
+                return io;
+            } else if (c instanceof java.io.UncheckedIOException uio) {
+                return uio.getCause();
+            }
+            return new IOException(c.getMessage(), c);
         }
     }
 
